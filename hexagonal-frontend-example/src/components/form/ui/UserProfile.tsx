@@ -34,7 +34,7 @@ const UserProfile: React.FC = () => {
         <button type="submit">Crear Usuario</button>
       </form>
 
-      {error && <p style="color: red;">{error}</p>}
+      {error && <p style={{color: 'red'}}>{error}</p>}
 
       {user && (
         <div>

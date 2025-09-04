@@ -1,14 +1,21 @@
-import { User } from '../domain/user';
-import type { UserRepository } from '../application/userService';
+import { User } from "../domain/user";
+import type { UserRepository } from "../domain/userRepository";
 
 export default class InMemoryUserRepository implements UserRepository {
   private getUsers(): Map<string, User> {
-    const stored = localStorage.getItem('users');
+    const stored = localStorage.getItem("users");
     if (stored) {
       const usersObj = JSON.parse(stored);
       const users = new Map<string, User>();
       for (const [id, userData] of Object.entries(usersObj)) {
-        users.set(id, new User((userData as any).id, (userData as any).name, (userData as any).email));
+        users.set(
+          id,
+          new User(
+            (userData as any).id,
+            (userData as any).name,
+            (userData as any).email,
+          ),
+        );
       }
       return users;
     }
@@ -20,7 +27,7 @@ export default class InMemoryUserRepository implements UserRepository {
     for (const [id, user] of users) {
       usersObj[id] = { id: user.id, name: user.name, email: user.email };
     }
-    localStorage.setItem('users', JSON.stringify(usersObj));
+    localStorage.setItem("users", JSON.stringify(usersObj));
   }
 
   async save(user: User): Promise<void> {
@@ -40,3 +47,4 @@ export default class InMemoryUserRepository implements UserRepository {
     return users.get(id) || null;
   }
 }
+
